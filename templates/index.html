@@ -6,13 +6,13 @@
         <div class="jumbotron">
             <div class="container">
                 {% if recommendations %}
-                    <h1>List of recommendated stores and their ratings.</h1>
-                    <h1>--------------------------------------- </h1> 
+                    <h1>Here are recommendations near the address you provided.</h1>
+                    <h1>------------------------------------- </h1> 
                     {% for recommendation in recommendations %}
                         <h1>Name: {{recommendation.name}} </h1> 
                         <h2>Phone: {{recommendation.phone}}</h2>
                         <h2>Rating: {{recommendation.rating}}</h2>
-                        <h1>--------------------------------------- </h1> 
+                        <h1>------------------------------------- </h1> 
                     {% endfor %}
                     <a href="{{ url_for('index') }}">Look up another address</a>
                 {% else %}
@@ -25,7 +25,7 @@
                         <input type="submit" value="Submit" class="btn btn-primary">
                     </form>
                 {% endif %}
-                    <a href="{{ url_for('about') }}">About this project</a>
+                <a href="{{ url_for('about') }}">About this project</a>
             </div>
         </div>
     </body>
