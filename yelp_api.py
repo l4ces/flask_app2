@@ -5,8 +5,10 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
 # put these into environment variables so protect them.
-#def get_businesses (location, term):
-def get_businesses (location):    
+# location: address
+# term: A search term.
+# limit: The number of items to return atmost.
+def get_businesses (location, term, limit):    
     auth = Oauth1Authenticator(
         consumer_key=os.environ['CONSUMER_KEY'],
         consumer_secret=os.environ['CONSUMER_SECRET'],
@@ -16,11 +18,11 @@ def get_businesses (location):
 
     client = Client(auth)
 
-    #params['term'] = search_term
+    
     params = {
-        'term': 'food',
+        'term': term,
         'lang': 'en',
-        'limit': 3
+        'limit': limit
     }
 
     response = client.search(location, **params)
@@ -30,15 +32,7 @@ def get_businesses (location):
 
     # add things to it.
     for business in response.businesses:
-        #businesses.append(business.name)
-        # returning a dictionary of business fields in a list
-        businesses.append({"name": business.name, "rating": business.rating, 'phone': business.phone})
+        businesses.append({"name": business.name, "address": business.location.display_address, "rating": business.rating, 'phone': business.display_phone})
     return businesses
 
 
-# Main 
-#loc = input("\nEnter address\n\t")
-#search_term = input ("\nEnter a category\n\t")
-#businesses = get_businesses(loc, search_term)
-#businesses = get_businesses('New York City', 'food')
-#print (businesses)

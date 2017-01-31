@@ -5,12 +5,17 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
+	# I tried exception handling and still did not figure out how to avoid the 404. To get around
+	# absence of a paramter, the index.html page uses default values.
 	address = request.values.get('address') # read the address from the HTTP request params
-	recommendations = None # we need to declare & initialize the variable before referencing.
+	term = request.values.get('term')
+	limit = request.values.get('limit')
+	recommendations = None 
+
 	# check to see if address was specified
 	if address: 
-		recommendations = yelp_api.get_businesses(address)
-	return render_template('index.html', recommendations=recommendations)
+		recommendations = yelp_api.get_businesses(address, term, limit)
+	return render_template('index.html', address=address, recommendations=recommendations, term=term)
 
 @app.route('/about')
 def about():

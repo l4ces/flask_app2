@@ -6,23 +6,34 @@
         <div class="jumbotron">
             <div class="container">
                 {% if recommendations %}
-                    <h1>Here are recommendations near the address you provided:</h1>
+                    <h1>You searched for ''{{term}}'' in ''{{address}}''. Here are the yelp results.</h1>
                     <h1>------------------------------------- </h1> 
+                    <!-- recommendations is a list so lets loop those out. -->
                     {% for recommendation in recommendations %}
-                        <h1>Name: {{recommendation.name}} </h1> 
-                        <h2>Phone: {{recommendation.phone}}</h2>
-                        <h2>Rating: {{recommendation.rating}}</h2>
+                        <h2>{{recommendation.name}} </h2> 
+                        <!-- address is a list so lets loop those out. -->
+                        {% for item in recommendation.address %}
+                            <h3> {{item}}</h3>
+                        {% endfor %}
+                        <h3>Phone: {{recommendation.phone}}</h3>
+                        <h3>Rating: {{recommendation.rating}}</h3>
                         <h1>------------------------------------- </h1> 
                     {% endfor %}
                     <a href="{{ url_for('index') }}">Look up another address</a>
                 {% else %}
-                    <h1>What's your address for recommendations?</h1>
+                    <h1>Fill in the following to issue a yelp_api query :-)</h1>
                     <form action="/" class="form-inline">
                         <div class="form-group">
-                            <input type="text" name="address" placeholder="City, State" class="form-control">
-                            <!-- <input type="text" name="terms" placeholder="Categories" class="form-control"> -->
+                            <h3>Address (Eg. New York NY)</h3>
+                            <input type="text" name="address" value="New York, NY" class="form-control">
+                             <h4>A term or blank for everything</h4>
+                            <input type="text" name="term" value="Starbucks" class="form-control">
+                            <h4>Number of results (default is 3)</h4>
+                            <input type="text" name="limit" value=3 class="form-control">
+                            <h4>Submit to get your recommendations</h4>
+                            <input type="submit" value="Submit" class="btn btn-primary">
                         </div>
-                        <input type="submit" value="Submit" class="btn btn-primary">
+                        
                     </form>
                 {% endif %}
                 <a href="{{ url_for('about') }}">About this project</a>
